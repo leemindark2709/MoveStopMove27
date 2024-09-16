@@ -325,9 +325,13 @@ public class PlayerAttack : MonoBehaviour
         }
 
         // Thực hiện tấn công nếu mục tiêu vẫn còn tồn tại và không có tag "DieEnemy"
-        if (enemy.transform != null && enemyTarget.tag != "DieEnemy")
+        if (enemy.transform != null  )
         {
-            PerformAttack(enemy.transform); // Thực hiện tấn công
+            if (enemyTarget.tag != "DieEnemy")
+            {
+                PerformAttack(enemy.transform); // Thực hiện tấn công
+            }
+           
         }
         else
         {

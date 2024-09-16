@@ -30181,6 +30181,7 @@ GameObject:
   - component: {fileID: 870227521}
   - component: {fileID: 870227520}
   - component: {fileID: 870227519}
+  - component: {fileID: 870227523}
   m_Layer: 0
   m_Name: Ability2
   m_TagString: Untagged
@@ -30227,6 +30228,11 @@ MonoBehaviour:
   imageAbility: {fileID: 1835629529}
   Green: {fileID: 21300000, guid: 8f9b053c17903154a8554ef37d6cb4d6, type: 3}
   Siver: {fileID: 21300000, guid: 866ae47cb0708934d900735cb256dd35, type: 3}
+  text: {fileID: 806312684}
+  originalCircleScale: {x: 0, y: 0, z: 0}
+  originalDetectionRadius: 0
+  originalCameraOffset: {x: 0, y: 0, z: 0}
+  originalMoveSpeed: 0
   pressedColor: {r: 0.85, g: 0.81600004, b: 0.81600004, a: 1}
 --- !u!114 &870227520
 MonoBehaviour:
@@ -30272,9 +30278,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 870227519}
+      - m_Target: {fileID: 870227517}
         m_TargetAssemblyTypeName: PickAbilityBottom, Assembly-CSharp
-        m_MethodName: OnButtonClick
+        m_MethodName: 
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -30322,6 +30328,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 870227517}
   m_CullTransparentMesh: 1
+--- !u!114 &870227523
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 870227517}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 395e53e34d9623e4eae2027713d403c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NumAbilityBottomSpeed: 0
 --- !u!1 &870424277
 GameObject:
   m_ObjectHideFlags: 0
@@ -38401,6 +38420,7 @@ GameObject:
   - component: {fileID: 1140661581}
   - component: {fileID: 1140661580}
   - component: {fileID: 1140661579}
+  - component: {fileID: 1140661582}
   m_Layer: 0
   m_Name: AbilityPanel
   m_TagString: Untagged
@@ -38495,6 +38515,23 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1140661577}
   m_CullTransparentMesh: 1
+--- !u!114 &1140661582
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1140661577}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0fa553ee850601499db8f4f3d248fff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ListAbilityButton:
+  - {fileID: 1990442241}
+  - {fileID: 870227518}
+  - {fileID: 1537065493}
+  - {fileID: 1390948052}
 --- !u!1 &1141728534
 GameObject:
   m_ObjectHideFlags: 0
@@ -46149,6 +46186,11 @@ MonoBehaviour:
   imageAbility: {fileID: 1528496137}
   Green: {fileID: 21300000, guid: 8f9b053c17903154a8554ef37d6cb4d6, type: 3}
   Siver: {fileID: 21300000, guid: 866ae47cb0708934d900735cb256dd35, type: 3}
+  text: {fileID: 2063420728}
+  originalCircleScale: {x: 0, y: 0, z: 0}
+  originalDetectionRadius: 0
+  originalCameraOffset: {x: 0, y: 0, z: 0}
+  originalMoveSpeed: 0
   pressedColor: {r: 0.85, g: 0.81600004, b: 0.81600004, a: 1}
 --- !u!114 &1390948054
 MonoBehaviour:
@@ -46194,9 +46236,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1390948053}
+      - m_Target: {fileID: 1390948051}
         m_TargetAssemblyTypeName: PickAbilityBottom, Assembly-CSharp
-        m_MethodName: OnButtonClick
+        m_MethodName: 
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -55814,6 +55856,7 @@ GameObject:
   - component: {fileID: 1537065496}
   - component: {fileID: 1537065495}
   - component: {fileID: 1537065494}
+  - component: {fileID: 1537065498}
   m_Layer: 0
   m_Name: Ability3
   m_TagString: Untagged
@@ -55860,6 +55903,11 @@ MonoBehaviour:
   imageAbility: {fileID: 1621246583}
   Green: {fileID: 21300000, guid: 8f9b053c17903154a8554ef37d6cb4d6, type: 3}
   Siver: {fileID: 21300000, guid: 866ae47cb0708934d900735cb256dd35, type: 3}
+  text: {fileID: 826117529}
+  originalCircleScale: {x: 0, y: 0, z: 0}
+  originalDetectionRadius: 0
+  originalCameraOffset: {x: 0, y: 0, z: 0}
+  originalMoveSpeed: 0
   pressedColor: {r: 0.85, g: 0.81600004, b: 0.81600004, a: 1}
 --- !u!114 &1537065495
 MonoBehaviour:
@@ -55955,6 +56003,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1537065492}
   m_CullTransparentMesh: 1
+--- !u!114 &1537065498
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1537065492}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10f995239d6b478458ac1ffe62872cd7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NumAbilityBottomRange: 0
 --- !u!1 &1538282925
 GameObject:
   m_ObjectHideFlags: 0
@@ -59104,6 +59165,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf7e766018e51ac488f4e9af2cfc7e68, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  originalCircleScale: {x: 0, y: 0, z: 0}
+  originalDetectionRadius: 0
+  originalCameraOffset: {x: 0, y: 0, z: 0}
+  originalMoveSpeed: 0
   NotPayUI: {fileID: 0}
   NotPayUI2Point: {fileID: 0}
   LeftHome: {fileID: 0}
@@ -69943,6 +70008,7 @@ GameObject:
   - component: {fileID: 1990442244}
   - component: {fileID: 1990442243}
   - component: {fileID: 1990442242}
+  - component: {fileID: 1990442246}
   m_Layer: 0
   m_Name: Ability1
   m_TagString: Untagged
@@ -69989,6 +70055,11 @@ MonoBehaviour:
   imageAbility: {fileID: 849239053}
   Green: {fileID: 21300000, guid: 8f9b053c17903154a8554ef37d6cb4d6, type: 3}
   Siver: {fileID: 21300000, guid: 866ae47cb0708934d900735cb256dd35, type: 3}
+  text: {fileID: 1505557313}
+  originalCircleScale: {x: 0, y: 0, z: 0}
+  originalDetectionRadius: 0
+  originalCameraOffset: {x: 0, y: 0, z: 0}
+  originalMoveSpeed: 0
   pressedColor: {r: 0.85, g: 0.81600004, b: 0.81600004, a: 1}
 --- !u!114 &1990442243
 MonoBehaviour:
@@ -70084,6 +70155,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1990442240}
   m_CullTransparentMesh: 1
+--- !u!114 &1990442246
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1990442240}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a56d6de337f3e33419d63beb9e9e7d36, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NumAbilityBottomShield: 0
 --- !u!1 &1994557254
 GameObject:
   m_ObjectHideFlags: 0

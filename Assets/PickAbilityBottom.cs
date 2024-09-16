@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using TMPro;
 
 public class PickAbilityBottom : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
@@ -11,6 +12,11 @@ public class PickAbilityBottom : MonoBehaviour, IPointerDownHandler, IPointerUpH
     public Image imageAbility;
     public Sprite Green;
     public Sprite Siver;
+    public TextMeshProUGUI text;
+    public Vector3 originalCircleScale;
+    public float originalDetectionRadius;
+    public Vector3 originalCameraOffset;
+    public float originalMoveSpeed;    
 
 
     // Màu sắc khi nhấn
@@ -21,11 +27,33 @@ public class PickAbilityBottom : MonoBehaviour, IPointerDownHandler, IPointerUpH
 
     void Start()
     {
+        PlayerPrefs.SetInt("NumAbilityBottomRange", 0);
+        PlayerPrefs.SetInt("NumAbilityBottomSpeed", 0);
+        PlayerPrefs.SetInt("GoldAbilityBottomRange", 250);
+        PlayerPrefs.SetInt("GoldAbilityBottomSpeed", 250);
+        PlayerPrefs.SetInt("CountGold", 2000000);
         if (imageAbility != null)
         {
             // Lưu lại giá trị màu sắc gốc
             originalColor = imageAbility.color;
         }
+        originalCircleScale = GameManager.Instance.PLayer.Find("Canvas").Find("Circle").localScale;
+        originalDetectionRadius = GameManager.Instance.Armature.GetComponent<PlayerAttack>().detectionRadius;
+        originalMoveSpeed = GameManager.Instance.PLayer.GetComponent<PlayerMovement>().moveSpeed;
+        CameraFollow cameraFollow = GameObject.Find("MainCamera").GetComponent<CameraFollow>();
+        originalCameraOffset = cameraFollow.offset;
+    }
+    public void ResetToOriginalSize()
+    {
+        // Lấy đối tượng và các thành phần liên quan
+        GameObject circle = GameManager.Instance.PLayer.Find("Canvas").Find("Circle").gameObject;
+        GameManager.Instance.Armature.GetComponent<PlayerAttack>().detectionRadius = originalDetectionRadius;
+
+        CameraFollow cameraFollow = GameObject.Find("MainCamera").GetComponent<CameraFollow>();
+        cameraFollow.offset = originalCameraOffset;
+
+        // Đưa kích thước của Circle về giá trị ban đầu
+        circle.transform.localScale = originalCircleScale;
     }
 
     // Hàm sẽ được gọi khi nhấn chuột xuống
@@ -42,30 +70,53 @@ public class PickAbilityBottom : MonoBehaviour, IPointerDownHandler, IPointerUpH
     // Hàm sẽ được gọi khi thả nút chuột
     public void OnPointerUp(PointerEventData eventData)
     {
+        Debug.Log(PlayerPrefs.GetInt("GoldAbilityBottomSpeed", 250));Debug.Log(PlayerPrefs.GetInt("GoldAbilityBottomSpeed", 250));
         if (imageAbility != null)
         {
-           
+            
             // Trả lại màu ban đầu khi thả nút
             SetImageColor(originalColor);
             Debug.Log("Button released! Image color reset.");
             GameManager.Instance.NameOfAbilityButtom = NameAbilityButton;
-            if(NameAbilityButton=="Speed" && GameManager.Instance.IschoseAbilityButtom == false)
+            if (NameAbilityButton == "Speed")
             {
-                GameManager.Instance.NameOfAbilityButtom = "Speed";
-                GameManager.Instance.PLayer.GetComponent<PlayerMovement>().moveSpeed *= 1.1f;
-                GameManager.Instance.Gold -= 1000;
+                if (PlayerPrefs.GetInt("GoldAbilityBottomSpeed", 250) > GameManager.Instance.Gold)
+                {
+                    Debug.Log("Not enough gold for Speed ability.");
+                    return;  // Dừng lại nếu không đủ vàng
+                }
+
+                // Nếu đủ vàng, thực hiện hành động
+                GameManager.Instance.Gold -= PlayerPrefs.GetInt("GoldAbilityBottomSpeed", 250);
                 GameManager.Instance.IschoseAbilityButtom = true;
+                PlayerPrefs.SetInt("NumAbilityBottomSpeed", PlayerPrefs.GetInt("NumAbilityBottomSpeed", 0)+1);
+                PlayerPrefs.SetInt("GoldAbilityBottomSpeed", PlayerPrefs.GetInt("GoldAbilityBottomSpeed",250)*2);
+                IncreaseSpeed(PlayerPrefs.GetInt("NumAbilityBottomSpeed", 0));
+                Debug.Log("Speed ability activated.");
             }
-            if (NameAbilityButton == "Range" && GameManager.Instance.IschoseAbilityButtom == false)
+
+            // Điều kiện cho "Range"
+            if (NameAbilityButton == "Range")
             {
-                GameManager.Instance.Gold -= 1000;
+                if (PlayerPrefs.GetInt("GoldAbilityBottomRange", 250) > GameManager.Instance.Gold)
+                {
+              
+                    Debug.Log("Not enough gold for Range ability.");
+                    return;  // Dừng lại nếu không đủ vàng
+                }
+
+                // Nếu đủ vàng, thực hiện hành động
+                PlayerPrefs.SetInt("NumAbilityBottomRange", PlayerPrefs.GetInt("NumAbilityBottomRange", 0) + 1);
+                Debug.Log(PlayerPrefs.GetInt("NumAbilityBottomRange", PlayerPrefs.GetInt("NumAbilityBottomRange", 0) + 1));
+                GameManager.Instance.Gold -= PlayerPrefs.GetInt("GoldAbilityBottomRange", 250);
                 GameManager.Instance.NameOfAbilityButtom = "Range";
-                GameManager.Instance.PLayer.Find("Canvas").Find("Circle").localScale *= 1.1f;
-                GameManager.Instance.Armature.GetComponent<PlayerAttack>().detectionRadius *= 1.1f;
-                CameraFollow cameraFollow = GameObject.Find("MainCamera").GetComponent<CameraFollow>();
-                cameraFollow.offset.y += 0.1f;
-                cameraFollow.offset.z -= 0.1f;
-                GameManager.Instance.IschoseAbilityButtom = true;
+                GameObject circle = GameManager.Instance.PLayer.Find("Canvas").Find("Circle").gameObject;
+                PlayerPrefs.SetInt("GoldAbilityBottomRange", PlayerPrefs.GetInt("GoldAbilityBottomRange", 250)*2);
+                // Lấy giá trị NumAbilityBottomRange từ PlayerPrefs
+                int numAbility = PlayerPrefs.GetInt("NumAbilityBottomRange", 0);
+
+                // Giá trị tăng cho mỗi lần là 10% giá trị ban đầu
+                IncreaseSize(numAbility);
             }
         }
     }
@@ -76,17 +127,99 @@ public class PickAbilityBottom : MonoBehaviour, IPointerDownHandler, IPointerUpH
     {
         imageAbility.color = color;
     }
+    /// <summary>
+    /// //////////////Set ve ban dau
+    /// </summary>
+    /// <param name="numAbility"></param>
+    /// 
+
+
+    /////////////////tăng tốc độ 
+    public void IncreaseSpeed(int numAbility)
+    {
+        float speedFactor = 1 + numAbility * 0.1f;
+        GameManager.Instance.PLayer.GetComponent<PlayerMovement>().moveSpeed = originalMoveSpeed * speedFactor;
+        Debug.Log("Increased speed based on numAbility.");
+    }
+
+    // Hàm để reset tốc độ về giá trị ban đầu
+    public void ResetSpeedToOriginal()
+    {
+        GameManager.Instance.PLayer.GetComponent<PlayerMovement>().moveSpeed = originalMoveSpeed;
+        Debug.Log("Speed reset to original value.");
+    }
+
+
+    ///////////////////////tăng kích thước //////////////////////
+    public void IncreaseSize(int numAbility)
+    {
+        // Tính toán hệ số dựa trên số lần sử dụng (1 + 0.1 * numAbility)
+        float scaleFactor = 1 + numAbility * 0.1f;
+
+        // Thay đổi kích thước của Circle dựa trên giá trị ban đầu
+        GameObject circle = GameManager.Instance.PLayer.Find("Canvas").Find("Circle").gameObject;
+        circle.transform.localScale = originalCircleScale * scaleFactor;
+
+        // Thay đổi bán kính phát hiện của PlayerAttack dựa trên giá trị ban đầu
+        GameManager.Instance.Armature.GetComponent<PlayerAttack>().detectionRadius = originalDetectionRadius * scaleFactor;
+
+        // Thay đổi offset của Camera dựa trên giá trị ban đầu
+        CameraFollow cameraFollow = GameObject.Find("MainCamera").GetComponent<CameraFollow>();
+        cameraFollow.offset = originalCameraOffset + new Vector3(0, numAbility * 0.1f, -numAbility * 0.1f);
+
+        Debug.Log("Increased size based on numAbility.");
+    }
+
     private void Update()
     {
-        if (GameManager.Instance.IschoseAbilityButtom ==true)
-        {
-            imageAbility.sprite = Siver;
-        }
-        else if (GameManager.Instance.Gold>=1000)
-        {
-            imageAbility.sprite = Green;
 
+
+        //////////////Ability1//////////////////////////////////////////////////
+        if (NameAbilityButton == "Speed" &&PlayerPrefs.GetInt("GoldAbilityBottomSpeed",250) <=GameManager.Instance.Gold)
+        {
+            transform.GetComponent<PickAbilityBottom>().imageAbility.GetComponent<Image>().sprite = transform.GetComponent<PickAbilityBottom>().Green;
+            text.text = PlayerPrefs.GetInt("GoldAbilityBottomSpeed", 250).ToString();
         }
-       
+        if (NameAbilityButton == "Speed" && PlayerPrefs.GetInt("GoldAbilityBottomSpeed", 250) > GameManager.Instance.Gold)
+        {
+            transform.GetComponent<PickAbilityBottom>().imageAbility.GetComponent<Image>().sprite = transform.GetComponent<PickAbilityBottom>().Siver;
+            text.text = PlayerPrefs.GetInt("GoldAbilityBottomSpeed", 250).ToString();
+        }
+        //////////////Ability2//////////////////////////////////////////////////
+
+        if (NameAbilityButton == "Range" &&PlayerPrefs.GetInt("GoldAbilityBottomRange",250) <=GameManager.Instance.Gold)
+        {
+            transform.GetComponent<PickAbilityBottom>().imageAbility.GetComponent<Image>().sprite = transform.GetComponent<PickAbilityBottom>().Green;
+            text.text = PlayerPrefs.GetInt("GoldAbilityBottomRange", 250).ToString();
+        }
+        if (NameAbilityButton == "Range" && PlayerPrefs.GetInt("GoldAbilityBottomRange", 250) > GameManager.Instance.Gold)
+        {
+            transform.GetComponent<PickAbilityBottom>().imageAbility.GetComponent<Image>().sprite = transform.GetComponent<PickAbilityBottom>().Siver;
+            text.text = PlayerPrefs.GetInt("GoldAbilityBottomRange", 250).ToString();
+        }
+        //////////////Ability3//////////////////////////////////////////////////
+
+        if (NameAbilityButton == "Shield" &&PlayerPrefs.GetInt("GoldAbilityBottomShield",25000) <=GameManager.Instance.Gold)
+        {
+            transform.GetComponent<PickAbilityBottom>().imageAbility.GetComponent<Image>().sprite = transform.GetComponent<PickAbilityBottom>().Green;
+            text.text = PlayerPrefs.GetInt("GoldAbilityBottomShield", 25000).ToString();
+        }
+        if (NameAbilityButton == "Shield" && PlayerPrefs.GetInt("GoldAbilityBottomShield", 25000) > GameManager.Instance.Gold)
+        {
+            transform.GetComponent<PickAbilityBottom>().imageAbility.GetComponent<Image>().sprite = transform.GetComponent<PickAbilityBottom>().Siver;
+            text.text = PlayerPrefs.GetInt("GoldAbilityBottomShield", 25000).ToString();
+        }
+        //////////////Ability4//////////////////////////////////////////////////
+        if (NameAbilityButton == "MaxWeapon" && PlayerPrefs.GetInt("GoldAbilityBottomMaxWeapon", 25000) <= GameManager.Instance.Gold)
+        {
+            transform.GetComponent<PickAbilityBottom>().imageAbility.GetComponent<Image>().sprite = transform.GetComponent<PickAbilityBottom>().Green;
+            text.text = PlayerPrefs.GetInt("GoldAbilityBottomMaxWeapon", 25000).ToString();
+        }
+        if (NameAbilityButton == "MaxWeapon" && PlayerPrefs.GetInt("GoldAbilityBottomMaxWeapon", 25000) > GameManager.Instance.Gold)
+        {
+            transform.GetComponent<PickAbilityBottom>().imageAbility.GetComponent<Image>().sprite = transform.GetComponent<PickAbilityBottom>().Siver;
+            text.text = PlayerPrefs.GetInt("GoldAbilityBottomMaxWeapon", 25000).ToString();
+        }
+
     }
 }

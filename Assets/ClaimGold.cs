@@ -64,8 +64,8 @@ public class ClaimGold : MonoBehaviour
         playerMovement.StopMovement(); // Gọi phương thức StopMovement để dừng di chuyển
         Player.Find("Armature").position = GameManager.Instance.PositionZombie0.position;
         Player.Find("Armature").rotation = GameManager.Instance.PositionZombie0.rotation;
-        GameObject.Find("MainCamera").GetComponent<CameraFollow>().offset.z = -1.45f;
-        GameObject.Find("MainCamera").GetComponent<CameraFollow>().offset.y = 1.19f;
+        //GameObject.Find("MainCamera").GetComponent<CameraFollow>().offset.z = -1.45f;
+        //GameObject.Find("MainCamera").GetComponent<CameraFollow>().offset.y = 1.19f;
         Debug.Log("................???................");
         GameManager.Instance.PlayerCamera.position = new Vector3(0.001851806f, 0.6067587f, 2.240096f);
         //GameManager.Instance.PLayer.Find("Canvas").position = new Vector3(0.5004948f, 0.4117069f, 0);

@@ -6,6 +6,11 @@ using UnityEngine;
 public class ZombieCity : MonoBehaviour
 {
 
+    public Vector3 originalCircleScale;
+    public float originalDetectionRadius;
+    public Vector3 originalCameraOffset;
+    public float originalMoveSpeed;
+
 
     public RectTransform NotPayUI;
     public RectTransform NotPayUI2Point;
@@ -20,11 +25,46 @@ public class ZombieCity : MonoBehaviour
         LeftHome = GameObject.Find("Home").transform.Find("Canvas").Find("Left0").GetComponent<RectTransform>();
         //Panel = GameManager.Instance.Shop.Find("Canvas").Find("Panel").GetComponent<RectTransform>();
         //StartingPointPanel = GameManager.Instance.Shop.Find("Canvas").Find("StartingPointPanel").GetComponent<RectTransform>();
+        originalCircleScale = GameManager.Instance.PLayer.Find("Canvas").Find("Circle").localScale;
+        originalDetectionRadius = GameManager.Instance.Armature.GetComponent<PlayerAttack>().detectionRadius;
+        originalMoveSpeed = GameManager.Instance.PLayer.GetComponent<PlayerMovement>().moveSpeed;
+        CameraFollow cameraFollow = GameObject.Find("MainCamera").GetComponent<CameraFollow>();
+        originalCameraOffset = cameraFollow.offset;
     }
 
     public RectTransform StartingPointPanel;
+    public void IncreaseSize(int numAbility)
+    {
+        // Tính toán hệ số dựa trên số lần sử dụng (1 + 0.1 * numAbility)
+        float scaleFactor = 1 + numAbility * 0.1f;
+
+        // Thay đổi kích thước của Circle dựa trên giá trị ban đầu
+        GameObject circle = GameManager.Instance.PLayer.Find("Canvas").Find("Circle").gameObject;
+        circle.transform.localScale = originalCircleScale * scaleFactor;
+
+        // Thay đổi bán kính phát hiện của PlayerAttack dựa trên giá trị ban đầu
+        GameManager.Instance.Armature.GetComponent<PlayerAttack>().detectionRadius = originalDetectionRadius * scaleFactor;
+
+        // Thay đổi offset của Camera dựa trên giá trị ban đầu
+        CameraFollow cameraFollow = GameObject.Find("MainCamera").GetComponent<CameraFollow>();
+        cameraFollow.offset = originalCameraOffset + new Vector3(0, numAbility * 0.1f, -numAbility * 0.1f);
+
+        Debug.Log("Increased size based on numAbility.");
+    }
+    public void IncreaseSpeed(int numAbility)
+    {
+        float speedFactor = 1 + numAbility * 0.1f;
+        GameManager.Instance.PLayer.GetComponent<PlayerMovement>().moveSpeed = originalMoveSpeed * speedFactor;
+        Debug.Log("Increased speed based on numAbility.");
+    }
     public void OnButtonClick()
     {
+        int numAbility = PlayerPrefs.GetInt("NumAbilityBottomRange", 0);
+
+        // Giá trị tăng cho mỗi lần là 10% giá trị ban đầu
+   /* IncreaseSize(numAbility)*/;
+       IncreaseSpeed(PlayerPrefs.GetInt("NumAbilityBottomSpeed", 0));
+
         GameManager.Instance.Home.GetComponent<Home>().AbilityBottomPanel.gameObject.SetActive(true);
         GameManager.Instance.Armature.tag = "Playerr";
         GameManager.Instance.Mode = "ZombieCity";
@@ -47,6 +87,8 @@ public class ZombieCity : MonoBehaviour
 
         GameObject.Find("MainCamera").GetComponent<CameraFollow>().offset.z = -1.45f;
         GameObject.Find("MainCamera").GetComponent<CameraFollow>().offset.y = 1.19f;
+        originalCameraOffset = GameObject.Find("MainCamera").GetComponent<CameraFollow>().offset;
+        IncreaseSize(numAbility);
         GameManager.Instance.TurnOnComponentPlayer();
         GameManager.Instance.PlayerCamera.position = new Vector3(0.001851806f, 0.6067587f, 2.240096f);
         GameManager.Instance.PLayer.Find("Canvas").localPosition = new Vector3(0.5004948f, 0.4117069f, -0.0002646446f);

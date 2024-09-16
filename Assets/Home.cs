@@ -82,8 +82,8 @@ public class Home : MonoBehaviour
 
         //Debug.Log(PanelEndGameZombie.GetComponent<PanelEndGameZombie>().Day.GetComponent<DayZombieManager>().Days.Count - 1);
         //Debug.Log(PlayerPrefs.GetString("Complete", "Yes"));
-        //PlayerPrefs.SetString("Complete", "No");
-        //PlayerPrefs.SetInt("IsDay", 0);
+        PlayerPrefs.SetString("Complete", "No");
+        PlayerPrefs.SetInt("IsDay", 0);
         Debug.Log(PanelEndGameZombie.GetComponent<PanelEndGameZombie>().Day.GetComponent<DayZombieManager>().Days.Count - 1);
         for (int i = 0; i <= PlayerPrefs.GetInt("IsDay", 1)%5; i++)
         {
