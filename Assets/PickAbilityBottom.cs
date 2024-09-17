@@ -87,7 +87,7 @@ public class PickAbilityBottom : MonoBehaviour, IPointerDownHandler, IPointerUpH
             GameManager.Instance.NameOfAbilityButtom = NameAbilityButton;
             if (NameAbilityButton == "Speed")
             {
-                if (PlayerPrefs.GetInt("GoldAbilityBottomSpeed", 250) > GameManager.Instance.Gold|| PlayerPrefs.GetInt("GoldAbilityBottomSpeed", 250)> 8000)
+                if (PlayerPrefs.GetInt("GoldAbilityBottomSpeed", 250) > GameManager.Instance.Gold|| PlayerPrefs.GetInt("GoldAbilityBottomSpeed", 250)> 32000)
                 {
                     Debug.Log("Not enough gold for Speed ability.");
                     return;  // Dừng lại nếu không đủ vàng
@@ -117,7 +117,7 @@ public class PickAbilityBottom : MonoBehaviour, IPointerDownHandler, IPointerUpH
             // Điều kiện cho "Range"
             if (NameAbilityButton == "Range")
             {
-                if (PlayerPrefs.GetInt("GoldAbilityBottomRange", 250) > GameManager.Instance.Gold||PlayerPrefs.GetInt("GoldAbilityBottomRange", 250)> 16000)
+                if (PlayerPrefs.GetInt("GoldAbilityBottomRange", 250) > GameManager.Instance.Gold||PlayerPrefs.GetInt("GoldAbilityBottomRange", 250)> 32000)
                 {
               
                     Debug.Log("Not enough gold for Range ability.");
@@ -222,6 +222,7 @@ public class PickAbilityBottom : MonoBehaviour, IPointerDownHandler, IPointerUpH
             MaxLevel.gameObject.SetActive(true);
         }
         //////////////Ability2//////////////////////////////////////////////////
+        Debug.Log(PlayerPrefs.GetInt("GoldAbilityBottomRange", 250));
 
         if (NameAbilityButton == "Range" &&PlayerPrefs.GetInt("GoldAbilityBottomRange",250) <=GameManager.Instance.Gold)
         {
@@ -232,8 +233,10 @@ public class PickAbilityBottom : MonoBehaviour, IPointerDownHandler, IPointerUpH
         {
             transform.GetComponent<PickAbilityBottom>().imageAbility.GetComponent<Image>().sprite = transform.GetComponent<PickAbilityBottom>().Siver;
             text.text = PlayerPrefs.GetInt("GoldAbilityBottomRange", 250).ToString();
-        if (NameAbilityButton == "Range" && PlayerPrefs.GetInt("GoldAbilityBottomRange", 250) >= 16000)
+            Debug.Log(PlayerPrefs.GetInt("GoldAbilityBottomRange", 250));
+            if (NameAbilityButton == "Range" && PlayerPrefs.GetInt("GoldAbilityBottomRange", 250) >= 32000)
             {
+             
                 ButtonUpSkill.gameObject.SetActive(false);
                 MaxLevel.gameObject.SetActive(true);
             }
