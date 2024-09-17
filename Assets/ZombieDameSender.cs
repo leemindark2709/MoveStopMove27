@@ -10,27 +10,32 @@ public class ZombieDameSender : MonoBehaviour
     {
         if (collision.transform.CompareTag("Playerr")) // Sử dụng CompareTag thay vì so sánh trực tiếp
         {
-            Player = collision.transform;
-            Debug.Log("Va chạm với Player");
-            collision.gameObject.GetComponent<PlayerAttack>().anim.Play("Dead");
-            collision.gameObject.GetComponent<PlayerAttack>().isDead = true;
-            collision.gameObject.GetComponent<PlayerAttack>().End = true;
-            foreach (Transform ZomBie in GameManager.Instance.Zombies)
+            if (GameManager.Instance.Armature.GetComponent<PlayerAttack>().NumShieldZombie>0)
             {
-                if (ZomBie != null)
+                GameManager.Instance.Armature.GetComponent<PlayerAttack>().UseAbilityShield();
+            }
+            else if(GameManager.Instance.Armature.GetComponent<PlayerAttack>().NumShieldZombie <= 0)
+            {
+                Player = collision.transform;
+                Debug.Log("Va chạm với Player");
+                collision.gameObject.GetComponent<PlayerAttack>().anim.Play("Dead");
+                collision.gameObject.GetComponent<PlayerAttack>().isDead = true;
+                collision.gameObject.GetComponent<PlayerAttack>().End = true;
+                foreach (Transform ZomBie in GameManager.Instance.Zombies)
                 {
-                    //GameManager.Instance.Armature.GetComponent<PlayerAttack>().enabled = false;
-                    GameManager.Instance.PLayer.GetComponent<PlayerMovement>().enabled = false;
-                    ZomBie.GetComponent<ZombirManager>().anim.Play("Win");
-                    ZomBie.GetComponent<ZombieMoving>().zombieSpeed = 0;
-                    GameManager.Instance.IsStartZomBie = false;
+                    if (ZomBie != null)
+                    {
+                        //GameManager.Instance.Armature.GetComponent<PlayerAttack>().enabled = false;
+                        GameManager.Instance.PLayer.GetComponent<PlayerMovement>().enabled = false;
+                        ZomBie.GetComponent<ZombirManager>().anim.Play("Win");
+                        ZomBie.GetComponent<ZombieMoving>().zombieSpeed = 0;
+                        GameManager.Instance.IsStartZomBie = false;
+                    }
                 }
             }
         }
-        else
-        {
-            //Debug.Log("Va chạm với đối tượng khác");
-        }
+         
+      
     }
 }
 

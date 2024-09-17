@@ -15,6 +15,7 @@ TagManager:
   - Wall
   - Zombie
   - CopyWeapon
+  - PlayerWithShield
   layers:
   - Default
   - TransparentFX

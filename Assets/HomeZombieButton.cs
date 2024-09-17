@@ -21,6 +21,7 @@ public class HomeZombieButton : MonoBehaviour
     }
     public void OnButtonClick()
     {
+        GameManager.Instance.Armature.GetComponent<PlayerAttack>().EndAbility4();
         GameManager.Instance.Home.GetComponent<Home>().AbilityBottomPanel.GetComponent<AbilityPanel>().ListAbilityButton[0].GetComponent<PickAbilityBottom>().ResetToOriginalSize();
         GameManager.Instance.Home.GetComponent<Home>().AbilityBottomPanel.GetComponent<AbilityPanel>().ListAbilityButton[0].GetComponent<PickAbilityBottom>().ResetSpeedToOriginal();
 

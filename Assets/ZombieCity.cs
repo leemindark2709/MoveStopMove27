@@ -68,9 +68,9 @@ public class ZombieCity : MonoBehaviour
         GameManager.Instance.Home.GetComponent<Home>().AbilityBottomPanel.gameObject.SetActive(true);
         GameManager.Instance.Armature.tag = "Playerr";
         GameManager.Instance.Mode = "ZombieCity";
-        GameManager.Instance.counyZombie = 10 + PlayerPrefs.GetInt("IsDay", 1);
-        GameManager.Instance.NumZombieSpawn = 10 + PlayerPrefs.GetInt("IsDay", 1);
-        GameManager.Instance.NumZomBieStart = 10 + PlayerPrefs.GetInt("IsDay", 1);
+        GameManager.Instance.counyZombie = 60 + PlayerPrefs.GetInt("IsDay", 1);
+        GameManager.Instance.NumZombieSpawn = 60 + PlayerPrefs.GetInt("IsDay", 1);
+        GameManager.Instance.NumZomBieStart = 60 + PlayerPrefs.GetInt("IsDay", 1);
         GameManager.Instance.Home.GetComponent<Home>().ZombieMode.GetComponent<ZombieMode>().CountZombieAlive.GetComponent<TextMeshProUGUI>().text=GameManager.Instance.counyZombie.ToString();
 
        GameManager.Instance.Home.GetComponent<Home>().ZombieMode.GetComponent<ZombieMode>().Day.GetChild(0).GetComponent<TextMeshProUGUI>().text ="Day "+ PlayerPrefs.GetInt("IsDay", 1).ToString();

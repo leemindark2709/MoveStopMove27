@@ -29,7 +29,11 @@ public class PlayerAttack : MonoBehaviour
     public bool CanAttack;
     public GameObject weaponClone;
     public Transform UIName;
-
+    public Transform ShieldAbility;
+    public int NumShieldZombie;
+    public int NumWeaponCopyZombie;
+    public int NumWeaponCopyZombyInGame=0;
+    public int NumWeaponReal=1;
     private void Awake()
     {
         instance = this;
@@ -79,9 +83,41 @@ public class PlayerAttack : MonoBehaviour
             originalWeaponParent = weapon.parent; // Lưu trữ vị trí ban đầu của vũ khí
         }
     }
+    public void UseAbilityShield()
+    {
+        transform.tag = "PlayerWithShield";
+        ShieldAbility.gameObject.SetActive(true);
+        StartCoroutine(WaitCancelShield());
+
+    }
+    IEnumerator WaitCancelShield()
+    {
+       
+        yield return new WaitForSeconds(2f); // Đợi 2 giây
+        NumShieldZombie -= 1;
+        transform.tag = "Playerr";
+        ShieldAbility.gameObject.SetActive(false);
+
+    }
+    public void EndAbility4()
+    {
+        NumWeaponReal = 1;
+        NumWeaponCopyZombyInGame = 0;
+
+    }
 
     void Update()
     {
+        if (GetNthNumberInSequence(NumWeaponReal) ==GameManager.Instance.NumZomBieStart - GameManager.Instance.counyZombie)
+        {
+            Debug.Log("NumAbilityBottomMaxWeapon: " + PlayerPrefs.GetInt("NumAbilityBottomMaxWeapon", 0));
+            if (NumWeaponReal <= PlayerPrefs.GetInt("NumAbilityBottomMaxWeapon",0))
+            {
+                NumWeaponCopyZombyInGame = NumWeaponReal;
+                NumWeaponReal += 1;
+            }
+          
+        }
         if (isDead)
         {
             GameManager.Instance.PLayer.GetComponent<PlayerMovement>().isInteracting = false;
@@ -216,7 +252,20 @@ public class PlayerAttack : MonoBehaviour
             Debug.Log("Kẻ địch gần, tấn công");
         }
     }
+    public int GetNthNumberInSequence(int n)
+    {
+        if (n == 1) return 8; // Số thứ 1 là 8
+        int a_n = 8;
+        int difference = 22;
 
+        for (int i = 2; i <= n; i++)
+        {
+            a_n += difference;
+            difference += 8; // Tăng khoảng cách thêm 8 mỗi lần
+        }
+
+        return a_n;
+    }
     public GameObject CheckEnemy()
     {
 
@@ -403,10 +452,10 @@ public class PlayerAttack : MonoBehaviour
                         Vector3 originalDirection = direction;
 
                         // Tính toán góc ném lệch trái (-45 độ)
-                        Vector3 leftDirection = Quaternion.Euler(0, -45, 0) * originalDirection;
+                        Vector3 leftDirection = Quaternion.Euler(0, -85, 0) * originalDirection;
 
                         // Tính toán góc ném lệch phải (+45 độ)
-                        Vector3 rightDirection = Quaternion.Euler(0, 45, 0) * originalDirection;
+                        Vector3 rightDirection = Quaternion.Euler(0, 85, 0) * originalDirection;
 
                         // Tác động lực lên WeaponCopy1 với góc ném lệch trái
                         WeaponCopy1.GetComponent<Rigidbody>().AddForce(leftDirection * forceMagnitude, ForceMode.Impulse);
@@ -424,6 +473,8 @@ public class PlayerAttack : MonoBehaviour
                         StartCoroutine(DestroyAfterTime(WeaponCopy1, timeToReturn));
                         StartCoroutine(DestroyAfterTime(WeaponCopy2, timeToReturn));
                     }
+                    Ability4(direction);
+
 
                     StartCoroutine(RotateWeaponAroundYAxis(timeToReturn - 0.12f, weapon)); // Thực hiện quay quanh trục Y
                 }
@@ -458,12 +509,77 @@ public class PlayerAttack : MonoBehaviour
 
                 weapon.GetComponent<BoxCollider>().enabled = true;
             }
-
+         
             // Bắt đầu Coroutine để vũ khí quay về vị trí ban đầu sau khi tấn công
             StartCoroutine(ReturnToParentAfterDelay(timeToReturn, localPosition, localRotation));
         }
     }
+    public void Ability4(Vector3 direction)
+    {
+       for(int i=0; i < NumWeaponCopyZombyInGame; i++)
+        {
+            if (i%2==0)
+            {
+                // Tạo bản sao của vũ khí
+                GameObject WeaponCopy1 = Instantiate(weapon.gameObject);
+                //GameObject WeaponCopy2 = Instantiate(weapon.gameObject);
+                WeaponCopy1.tag = "CopyWeapon";
+                //WeaponCopy2.tag = "CopyWeapon";
 
+                // Áp dụng góc quay ban đầu của vũ khí gốc cho các bản sao
+                WeaponCopy1.transform.rotation = weapon.rotation;
+                /*  WeaponCopy2.transform.rotation = weapon.rotation*/
+                ;
+
+                // Tính toán hướng gốc
+                Vector3 originalDirection = direction;
+
+                // Tính toán góc ném lệch trái (-45 độ)
+                Vector3 leftDirection = Quaternion.Euler(0, -30f*(i/2+1), 0) * originalDirection;
+
+                // Tính toán góc ném lệch phải (+45 độ)
+                //Vector3 rightDirection = Quaternion.Euler(0, 85, 0) * originalDirection;
+
+                // Tác động lực lên WeaponCopy1 với góc ném lệch trái
+                WeaponCopy1.GetComponent<Rigidbody>().AddForce(leftDirection * 0.7f, ForceMode.Impulse);
+                StartCoroutine(RotateCopyWeaponAroundYAxis(timeToReturn - 0.12f, WeaponCopy1.transform));
+                WeaponCopy1.layer = LayerMask.NameToLayer("Default");
+                WeaponCopy1.GetComponent<BoxCollider>().enabled = true;
+                StartCoroutine(DestroyAfterTime(WeaponCopy1, timeToReturn));
+            }
+            else
+            {
+                // Tạo bản sao của vũ khí
+                GameObject WeaponCopy1 = Instantiate(weapon.gameObject);
+                //GameObject WeaponCopy2 = Instantiate(weapon.gameObject);
+                WeaponCopy1.tag = "CopyWeapon";
+                //WeaponCopy2.tag = "CopyWeapon";
+
+                // Áp dụng góc quay ban đầu của vũ khí gốc cho các bản sao
+                WeaponCopy1.transform.rotation = weapon.rotation;
+                /*  WeaponCopy2.transform.rotation = weapon.rotation*/
+                ;
+
+                // Tính toán hướng gốc
+                Vector3 originalDirection = direction;
+
+                // Tính toán góc ném lệch trái (-45 độ)
+                Vector3 leftDirection = Quaternion.Euler(0, 30f * (i +1/ 2 ), 0) * originalDirection;
+
+                // Tính toán góc ném lệch phải (+45 độ)
+                //Vector3 rightDirection = Quaternion.Euler(0, 85, 0) * originalDirection;
+
+                // Tác động lực lên WeaponCopy1 với góc ném lệch trái
+                WeaponCopy1.GetComponent<Rigidbody>().AddForce(leftDirection * 0.7f, ForceMode.Impulse);
+                StartCoroutine(RotateCopyWeaponAroundYAxis(timeToReturn - 0.12f, WeaponCopy1.transform));
+                WeaponCopy1.layer = LayerMask.NameToLayer("Default");
+                WeaponCopy1.GetComponent<BoxCollider>().enabled = true;
+                StartCoroutine(DestroyAfterTime(WeaponCopy1, timeToReturn));
+            }
+     
+
+        }
+    }
     private IEnumerator DestroyAfterTime(GameObject weaponCopy, float delay)
     {
         yield return new WaitForSeconds(delay);

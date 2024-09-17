@@ -8,6 +8,9 @@ public class SelectAbilityMain : MonoBehaviour
     // Start is called before the first frame update
     public void OnButtonClick()
     {
+    GameManager.Instance.Armature.GetComponent<PlayerAttack>().NumWeaponCopyZombie = 0;
+        GameManager.Instance.Armature.GetComponent<PlayerAttack>().NumShieldZombie = PlayerPrefs.GetInt("NumAbilityBottomShield", 0);
+        GameManager.Instance.Armature.GetComponent<PlayerAttack>().NumWeaponCopyZombie = PlayerPrefs.GetInt("NumAbilityBottomMaxWeapon");
         Debug.Log(GameManager.Instance.MainAbility);
         Debug.Log(GameManager.Instance.Home.GetComponent<Home>().PanelStartZombileMode.GetComponent<ZombieMode>().AbilityRandom1.name);
             

@@ -13,6 +13,7 @@ public class ClaimGold : MonoBehaviour
     }
     public void onButtonClick()
     {
+        GameManager.Instance.Armature.GetComponent<PlayerAttack>().EndAbility4();
         GameManager.Instance.IschoseAbilityButtom = false;
         GameManager.Instance.Home.GetComponent<Home>().AbilityBottomPanel.gameObject.SetActive(true);
 
@@ -91,9 +92,9 @@ public class ClaimGold : MonoBehaviour
                 GameManager.Instance.Zombies.RemoveAt(i); // Xóa Zombie khỏi danh sách
             }
         }
-        GameManager.Instance.counyZombie = 10 + PlayerPrefs.GetInt("IsDay", 1);
-        GameManager.Instance.NumZombieSpawn = 10 + PlayerPrefs.GetInt("IsDay", 1);
-        GameManager.Instance.NumZomBieStart = 10 + PlayerPrefs.GetInt("IsDay", 1);
+        GameManager.Instance.counyZombie = 60 + PlayerPrefs.GetInt("IsDay", 1);
+        GameManager.Instance.NumZombieSpawn = 60 + PlayerPrefs.GetInt("IsDay", 1);
+        GameManager.Instance.NumZomBieStart = 60 + PlayerPrefs.GetInt("IsDay", 1);
         
         GameManager.Instance.Home.GetComponent<Home>().ZombieMode.GetComponent<ZombieMode>().CountZombieAlive.GetComponent<TextMeshProUGUI>().text =
                 GameManager.Instance.counyZombie.ToString();

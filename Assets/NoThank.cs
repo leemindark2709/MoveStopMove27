@@ -9,6 +9,8 @@ public class NoThank : MonoBehaviour
     // Start is called before the first frame update
     public void OnButtonClick()
     {
+        GameManager.Instance.Armature.GetComponent<PlayerAttack>().NumShieldZombie = PlayerPrefs.GetInt("NumAbilityBottomShield", 0);
+        GameManager.Instance.Armature.GetComponent<PlayerAttack>().NumWeaponCopyZombie = PlayerPrefs.GetInt("NumAbilityBottomMaxWeapon");
         GameManager.Instance.MainAbility = "NoneAbility";
         GameManager.Instance.Home.GetComponent<Home>().AbilityBottomPanel.gameObject.SetActive(false);
         PanelReadyGoZombie.gameObject.SetActive(true);
