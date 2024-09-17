@@ -41,7 +41,7 @@ public class ZombirManager : MonoBehaviour
         yield return new WaitForSeconds(3f);
 
         // Thực hiện hành động sau khi đợi
-        transform.GetComponent<ZombieMoving>().zombieSpeed = 2.5f;
+        transform.GetComponent<ZombieMoving>().zombieSpeed = 3f;
         Run();
     }
     public void Walk() {

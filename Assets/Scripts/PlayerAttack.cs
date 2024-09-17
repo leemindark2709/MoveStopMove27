@@ -206,7 +206,7 @@ public class PlayerAttack : MonoBehaviour
         }
         enemy = CheckEnemy(); // Kiểm tra kẻ địch gần nhất
 
-        if (enemy != null && numOfAttacks > 0 && !PlayerMovement.instance.isMoving&&enemy.tag!="EnemyDie"&&CanAttack)
+        if (!isDead&&  enemy != null && numOfAttacks > 0 && !PlayerMovement.instance.isMoving&&enemy.tag!="EnemyDie"&&CanAttack)
         {
             //CheckEnemy().transform.parent.Find("Canvas").Find("IsCheckEnemy").GetComponent<Image>().enabled = true;
             numOfAttacks = 0;
@@ -325,11 +325,16 @@ public class PlayerAttack : MonoBehaviour
         }
 
         // Thực hiện tấn công nếu mục tiêu vẫn còn tồn tại và không có tag "DieEnemy"
-        if (enemy.transform != null  )
+        //if (enemy.transform == null)
+        //{
+        //    numOfAttacks = 1;
+        //    yield break; // Thoát khỏi coroutine
+        //}
+        if (GameManager.Instance.Armature.GetComponent<PlayerAttack>().enemy != null  )
         {
-            if (enemyTarget.tag != "DieEnemy")
+            if (GameManager.Instance.Armature.GetComponent<PlayerAttack>().enemy.tag != "DieEnemy")
             {
-                PerformAttack(enemy.transform); // Thực hiện tấn công
+                PerformAttack(GameManager.Instance.Armature.GetComponent<PlayerAttack>().enemy.transform); // Thực hiện tấn công
             }
            
         }

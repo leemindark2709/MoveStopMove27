@@ -16,11 +16,11 @@ public class PlayerDameSender : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (isWeaponCollided)
-        {
-            // Nếu vũ khí đã va chạm, không xử lý va chạm nữa
-            return;
-        }
+        //if (isWeaponCollided)
+        //{
+        //    // Nếu vũ khí đã va chạm, không xử lý va chạm nữa
+        //    return;
+        //}
 
         // Kiểm tra nếu game object không thuộc cây targetTree thì mới xử lý
         if (!IsChildOf(other.transform, targetTree) && other.CompareTag("Enemy") && other.gameObject.layer == LayerMask.NameToLayer("Enemy"))
@@ -83,6 +83,8 @@ public class PlayerDameSender : MonoBehaviour
         {
             scoreincrease();
             check = true;
+            int layer = LayerMask.NameToLayer("ZombieDie");
+            other.gameObject.layer = layer;
             Destroy(other.gameObject);
             GameManager.Instance.numZombieAlive -= 1;
             GameManager.Instance.counyZombie -= 1;

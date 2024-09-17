@@ -80,7 +80,7 @@ public class PickAbilityBottom : MonoBehaviour, IPointerDownHandler, IPointerUpH
             GameManager.Instance.NameOfAbilityButtom = NameAbilityButton;
             if (NameAbilityButton == "Speed")
             {
-                if (PlayerPrefs.GetInt("GoldAbilityBottomSpeed", 250) > GameManager.Instance.Gold)
+                if (PlayerPrefs.GetInt("GoldAbilityBottomSpeed", 250) > GameManager.Instance.Gold|| PlayerPrefs.GetInt("GoldAbilityBottomSpeed", 250)>4000)
                 {
                     Debug.Log("Not enough gold for Speed ability.");
                     return;  // Dừng lại nếu không đủ vàng
@@ -98,7 +98,7 @@ public class PickAbilityBottom : MonoBehaviour, IPointerDownHandler, IPointerUpH
             // Điều kiện cho "Range"
             if (NameAbilityButton == "Range")
             {
-                if (PlayerPrefs.GetInt("GoldAbilityBottomRange", 250) > GameManager.Instance.Gold)
+                if (PlayerPrefs.GetInt("GoldAbilityBottomRange", 250) > GameManager.Instance.Gold||PlayerPrefs.GetInt("GoldAbilityBottomRange", 250)>4000)
                 {
               
                     Debug.Log("Not enough gold for Range ability.");
