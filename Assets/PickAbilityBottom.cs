@@ -27,16 +27,20 @@ public class PickAbilityBottom : MonoBehaviour, IPointerDownHandler, IPointerUpH
     // Màu sắc mặc định (khi không nhấn)
     private Color originalColor;
 
+    private void Awake()
+    {
+        //PlayerPrefs.SetInt("NumAbilityBottomRange", 0);
+        //PlayerPrefs.SetInt("NumAbilityBottomSpeed", 0);
+        //PlayerPrefs.SetInt("GoldAbilityBottomRange", 250);
+        //PlayerPrefs.SetInt("GoldAbilityBottomSpeed", 250);
+        //PlayerPrefs.SetInt("GoldAbilityBottomShield", 1000);
+        //PlayerPrefs.SetInt("NumAbilityBottomShield", 0);
+        //PlayerPrefs.SetInt("GoldAbilityBottomMaxWeapon", 1000);
+        //PlayerPrefs.SetInt("NumAbilityBottomMaxWeapon", 0);
+    }
     void Start()
     {
-        PlayerPrefs.SetInt("NumAbilityBottomRange", 0);
-        PlayerPrefs.SetInt("NumAbilityBottomSpeed", 0);
-        PlayerPrefs.SetInt("GoldAbilityBottomRange", 250);
-        PlayerPrefs.SetInt("GoldAbilityBottomSpeed", 250);
-        PlayerPrefs.SetInt("GoldAbilityBottomShield", 1000);
-        PlayerPrefs.SetInt("NumAbilityBottomShield", 0);
-        PlayerPrefs.SetInt("GoldAbilityBottomMaxWeapon", 1000);
-        PlayerPrefs.SetInt("NumAbilityBottomMaxWeapon", 0);
+     
        
         PlayerPrefs.SetInt("CountGold", 2000000);
         if (imageAbility != null)
@@ -70,7 +74,7 @@ public class PickAbilityBottom : MonoBehaviour, IPointerDownHandler, IPointerUpH
         {
             // Đổi màu khi nhấn nút
             SetImageColor(pressedColor);
-            Debug.Log("Button pressed! Image color changed.");
+            //Debug.Log("Button pressed! Image color changed.");
         }
     }
 
@@ -83,7 +87,7 @@ public class PickAbilityBottom : MonoBehaviour, IPointerDownHandler, IPointerUpH
             
             // Trả lại màu ban đầu khi thả nút
             SetImageColor(originalColor);
-            Debug.Log("Button released! Image color reset.");
+            //Debug.Log("Button released! Image color reset.");
             GameManager.Instance.NameOfAbilityButtom = NameAbilityButton;
             if (NameAbilityButton == "Speed")
             {
@@ -117,7 +121,7 @@ public class PickAbilityBottom : MonoBehaviour, IPointerDownHandler, IPointerUpH
             // Điều kiện cho "Range"
             if (NameAbilityButton == "Range")
             {
-                if (PlayerPrefs.GetInt("GoldAbilityBottomRange", 250) > GameManager.Instance.Gold||PlayerPrefs.GetInt("GoldAbilityBottomRange", 250)> 32000)
+                if (PlayerPrefs.GetInt("GoldAbilityBottomRange", 250) > GameManager.Instance.Gold||PlayerPrefs.GetInt("GoldAbilityBottomRange", 250)> 8000)
                 {
               
                     Debug.Log("Not enough gold for Range ability.");
@@ -234,12 +238,13 @@ public class PickAbilityBottom : MonoBehaviour, IPointerDownHandler, IPointerUpH
             transform.GetComponent<PickAbilityBottom>().imageAbility.GetComponent<Image>().sprite = transform.GetComponent<PickAbilityBottom>().Siver;
             text.text = PlayerPrefs.GetInt("GoldAbilityBottomRange", 250).ToString();
             Debug.Log(PlayerPrefs.GetInt("GoldAbilityBottomRange", 250));
-            if (NameAbilityButton == "Range" && PlayerPrefs.GetInt("GoldAbilityBottomRange", 250) >= 32000)
-            {
-             
-                ButtonUpSkill.gameObject.SetActive(false);
-                MaxLevel.gameObject.SetActive(true);
-            }
+
+        }
+        if (NameAbilityButton == "Range" && PlayerPrefs.GetInt("GoldAbilityBottomRange", 250) >= 16000)
+        {
+
+            ButtonUpSkill.gameObject.SetActive(false);
+            MaxLevel.gameObject.SetActive(true);
         }
         //////////////Ability3//////////////////////////////////////////////////
 

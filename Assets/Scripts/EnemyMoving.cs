@@ -30,6 +30,7 @@ public class EnemyMoving : MonoBehaviour
     private bool canUpdateMovePoint = true;
     public bool isAttack = false;
     public Transform IsCheckEnemy;
+    public Transform Armature;
 
     void Start()
     {

@@ -389,6 +389,7 @@ public class PlayerAttack : MonoBehaviour
         }
         else
         {
+            anim.SetFloat("attack", 0);
             numOfAttacks = 1;
             Debug.LogWarning("Mục tiêu kẻ địch không còn tồn tại");
         }

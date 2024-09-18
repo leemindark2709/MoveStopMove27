@@ -526,6 +526,7 @@ GameObject:
   - component: {fileID: 6178495456067333682}
   - component: {fileID: 2584834120416679209}
   - component: {fileID: 5887563090565049830}
+  - component: {fileID: 815786553746018588}
   m_Layer: 3
   m_Name: Armature
   m_TagString: Enemy
@@ -621,6 +622,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &815786553746018588
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 968052886250484059}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87e286975d902fa42a0db7380d18a824, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NameEnemy: {fileID: 8940047036323000186}
 --- !u!1 &975607499914274343
 GameObject:
   m_ObjectHideFlags: 0
@@ -1618,6 +1632,7 @@ MonoBehaviour:
   localRotation: {x: 0, y: 0, z: 0, w: 0}
   isAttack: 0
   IsCheckEnemy: {fileID: 1714336975048505389}
+  Armature: {fileID: 4266156932258497352}
 --- !u!114 &5199365398896252459
 MonoBehaviour:
   m_ObjectHideFlags: 0

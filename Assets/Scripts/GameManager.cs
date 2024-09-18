@@ -109,8 +109,15 @@ public class GameManager : MonoBehaviour
     public List<Transform> Zombies = new List<Transform>();
     private void Awake()
     {
+        //PlayerPrefs.SetInt("NumAbilityBottomRange", 0);
+        //PlayerPrefs.SetInt("NumAbilityBottomSpeed", 0);
+        //PlayerPrefs.SetInt("GoldAbilityBottomRange", 250);
+        //PlayerPrefs.SetInt("GoldAbilityBottomSpeed", 250);
+        //PlayerPrefs.SetInt("GoldAbilityBottomShield", 1000);
+        //PlayerPrefs.SetInt("NumAbilityBottomShield", 0);
+        //PlayerPrefs.SetInt("GoldAbilityBottomMaxWeapon", 1000);
+        //PlayerPrefs.SetInt("NumAbilityBottomMaxWeapon", 0);
 
-     
         checkShopWeapon = false;
         UiNamePoint = GameObject.Find("UiNamePoint").transform;
         UiNamePoint.gameObject.SetActive(false);
@@ -666,6 +673,7 @@ public class GameManager : MonoBehaviour
         {
             renderer.material = randomMaterial;
             spawnedEnemy.transform.Find("Armature").Find("Canvas").Find("UIPoint").GetComponent<Image>().color = randomMaterial.color;
+            //spawnedEnemy.GetComponent<EnemyMoving>().Armature.GetComponent<ArmartureEnemy>().NameEnemy.GetComponent<TextMeshProUGUI>().color= randomMaterial.color;
         }
         /////////////////////////////////Weapon///////////////////////////////////////
         RandomWeapon(spawnedEnemy);
