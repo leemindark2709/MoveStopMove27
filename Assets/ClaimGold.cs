@@ -13,6 +13,7 @@ public class ClaimGold : MonoBehaviour
     }
     public void onButtonClick()
     {
+        GameManager.Instance.Armature.GetComponent<DieChangeColor>().ResetColor();
         GameManager.Instance.Armature.GetComponent<PlayerAttack>().EndAbility4();
         GameManager.Instance.IschoseAbilityButtom = false;
         GameManager.Instance.Home.GetComponent<Home>().AbilityBottomPanel.gameObject.SetActive(true);

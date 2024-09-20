@@ -31,7 +31,10 @@ public class EnemyMoving : MonoBehaviour
     public bool isAttack = false;
     public Transform IsCheckEnemy;
     public Transform Armature;
-
+    public ParticleSystem EnemyParticleSystem;
+    public bool Effect;
+    public Transform initialShadingGroup1;
+    public Transform UIPoint;
     void Start()
     {
         isAttack = false;
@@ -81,6 +84,15 @@ public class EnemyMoving : MonoBehaviour
         //}
         if (isDead)
         {
+           transform.Find("Armature").GetComponent<DieChangeColor>().Darken();
+            if (Effect==false)
+            {
+                EnemyParticleSystem.GetComponent<ParticleSystemRenderer>().material.color =UIPoint.GetComponent<Image>().color ;
+                //EnemyParticleSystem.transform.position = transform.Find("Armature").transform.position;
+                EnemyParticleSystem.Play(); // Chạy Particle System
+                Effect = true;
+            }
+
             Transform canvas = transform.Find("Canvas");
             if (canvas != null)
             {

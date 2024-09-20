@@ -22,20 +22,20 @@ public class CharSkinTrouserManager : MonoBehaviour
     
 
 
-        if (TrousersSkinManager.instance.IsTrousers != TrousersSkinManager.instance.materials[0])
-        {
+        //if (TrousersSkinManager.instance.IsTrousers != TrousersSkinManager.instance.materials[0])
+        //{
 
-            UnequipTrousersItem.gameObject.SetActive(true);
-            SelectTrousersItem.gameObject.SetActive(false);
-            ADSTrousersItem.gameObject.SetActive(false);
-            GoldTrousersItem.gameObject.SetActive(false);
-        }
-        else
-        {
-            UnequipTrousersItem.gameObject.SetActive(false);
-            SelectTrousersItem.gameObject.SetActive(true);
-            ADSTrousersItem.gameObject.SetActive(false);
-            GoldTrousersItem.gameObject.SetActive(false);
-        }
+        //    UnequipTrousersItem.gameObject.SetActive(true);
+        //    SelectTrousersItem.gameObject.SetActive(false);
+        //    ADSTrousersItem.gameObject.SetActive(false);
+        //    GoldTrousersItem.gameObject.SetActive(false);
+        //}
+        //else
+        //{
+        //    UnequipTrousersItem.gameObject.SetActive(false);
+        //    SelectTrousersItem.gameObject.SetActive(true);
+        //    ADSTrousersItem.gameObject.SetActive(false);
+        //    GoldTrousersItem.gameObject.SetActive(false);
+        //}
     }
 }

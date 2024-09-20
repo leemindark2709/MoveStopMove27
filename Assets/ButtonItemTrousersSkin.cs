@@ -10,6 +10,7 @@ public class ButtonItemTrousersSkin : MonoBehaviour
     public Transform Lock;
     public int Price;
     public Material material;
+    public bool IsTest;
     public void OnButtonClick()
     {
 

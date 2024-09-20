@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class ZombieDameSender : MonoBehaviour
 {
+    public Transform PointSpawnPatical;
     public Transform Player;
     // Start is called before the first frame update
     private void OnCollisionEnter(Collision collision)

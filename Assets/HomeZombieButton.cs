@@ -21,6 +21,7 @@ public class HomeZombieButton : MonoBehaviour
     }
     public void OnButtonClick()
     {
+        GameManager.Instance.Armature.GetComponent<DieChangeColor>().ResetColor();
         GameManager.Instance.Armature.GetComponent<PlayerAttack>().EndAbility4();
         GameManager.Instance.Home.GetComponent<Home>().AbilityBottomPanel.GetComponent<AbilityPanel>().ListAbilityButton[0].GetComponent<PickAbilityBottom>().ResetToOriginalSize();
         GameManager.Instance.Home.GetComponent<Home>().AbilityBottomPanel.GetComponent<AbilityPanel>().ListAbilityButton[0].GetComponent<PickAbilityBottom>().ResetSpeedToOriginal();
@@ -82,7 +83,9 @@ public class HomeZombieButton : MonoBehaviour
 
         //    Panel.anchoredPosition = PanelDestination.anchoredPosition;
         //}
+        GameManager.Instance.PLayer.GetComponent<PlayerMovement>().isInteracting = false;
         GameManager.Instance.PLayer.GetComponent<PlayerMovement>().isMoving = false;
+        GameManager.Instance.PLayer.GetComponent<PlayerMovement>().direction = new Vector2(0, 0);
         GameManager.Instance.PLayer.GetComponent<PlayerMovement>().enabled = false;
         GameManager.Instance.Armature.tag = "Playerr";
       
@@ -99,7 +102,10 @@ public class HomeZombieButton : MonoBehaviour
         GameManager.Instance.PLayer.Find("Canvas").Find("Circle").gameObject.SetActive(false);
         GameManager.Instance.Armature.GetComponent<PlayerAttack>().UIName.gameObject.SetActive(false);
         StartCoroutine(GameManager.Instance.Home.GetComponent<Home>().ButtonZombieMode.GetComponent<ZombieCity>().delayZombileMode());
-
+        GameManager.Instance.PLayer.GetComponent<PlayerMovement>().Circle.transform.localScale = new Vector3(1.1f, 1.1f, 1.1f);
+        GameManager.Instance.PLayer.GetComponent<PlayerMovement>().Circle.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 1);
+        GameManager.Instance.PLayer.GetComponent<PlayerMovement>().Circle.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 1);
+        GameManager.Instance.Armature.GetComponent<PlayerAttack>().detectionRadius = 0.55f;
         StartCoroutine(Wait3s());
         GameManager.Instance.Armature.GetComponent<PlayerAttack>().anim.Play("Idle");
 

@@ -15,6 +15,7 @@ public class ReviveNow : MonoBehaviour
     public void OnButtonClick()
     {
         isReviveNow = true;
+        GameManager.Instance.Armature.GetComponent<DieChangeColor>().ResetColor();
         if (GameManager.Instance.Mode!="ZombieCity")
         {
 
@@ -50,6 +51,11 @@ public class ReviveNow : MonoBehaviour
         else
         {
             Player.Find("Armature").position = GameManager.Instance.PositionZombie0.position;
+            Vector3 newPosition = Player.Find("Armature").transform.position;
+            //newPosition.y = -0.08094832f;
+            //Player.Find("Armature").transform.localPosition = newPosition;
+
+
             Player.Find("Armature").rotation = GameManager.Instance.PositionZombie0.rotation;
             //GameObject.Find("MainCamera").GetComponent<CameraFollow>().offset.z = -1.45f;
             //GameObject.Find("MainCamera").GetComponent<CameraFollow>().offset.y = 1.19f;

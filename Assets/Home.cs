@@ -24,6 +24,7 @@ public class Home : MonoBehaviour
     // This method will be called when the button is clicked
     public void OnButtonClick()
     {
+        GameManager.Instance.Armature.GetComponent<DieChangeColor>().ResetColor();
         PlayerPrefs.SetInt("CountGold", GameManager.Instance.Gold);
         PlayerPrefs.Save();
         // Reset the game by reloading the current scene
@@ -76,15 +77,15 @@ public class Home : MonoBehaviour
     private void Update()
     {
         UImask();
-        Debug.Log("Here...."+PlayerPrefs.GetInt("IsDay", 1));
-        Debug.Log("Here...."+PlayerPrefs.GetString("Complete", ""));
+        //Debug.Log("Here...."+PlayerPrefs.GetInt("IsDay", 1));
+        //Debug.Log("Here...."+PlayerPrefs.GetString("Complete", ""));
 
 
         //Debug.Log(PanelEndGameZombie.GetComponent<PanelEndGameZombie>().Day.GetComponent<DayZombieManager>().Days.Count - 1);
         //Debug.Log(PlayerPrefs.GetString("Complete", "Yes"));
         PlayerPrefs.SetString("Complete", "No");
         PlayerPrefs.SetInt("IsDay", 0);
-        Debug.Log(PanelEndGameZombie.GetComponent<PanelEndGameZombie>().Day.GetComponent<DayZombieManager>().Days.Count - 1);
+        //Debug.Log(PanelEndGameZombie.GetComponent<PanelEndGameZombie>().Day.GetComponent<DayZombieManager>().Days.Count - 1);
         for (int i = 0; i <= PlayerPrefs.GetInt("IsDay", 1)%5; i++)
         {
             if (i < PlayerPrefs.GetInt("IsDay", 1) % 5 && i > 0)

@@ -12,7 +12,7 @@ public class PlayerMovement : MonoBehaviour
     public float rotationSpeed = 30f; // Rotation speed of the character
 
     private Vector2 startPoint;
-    private Vector2 direction;
+    public Vector2 direction;
     public bool isInteracting;
 
     private Vector3 canvasOffset; // Store the initial offset between Canvas and Armature
@@ -33,6 +33,10 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
+        //if (GameManager.Instance.Armature.GetComponent<PlayerAttack>().isDead )
+        //{
+        //    direction = new Vector2(0, 0);
+        //}
         // Handle touch input for mobile devices
         if (Input.touchCount > 0)
         {
@@ -104,7 +108,7 @@ public class PlayerMovement : MonoBehaviour
                 }
             }
 
-            // Update isMoving based on direction
+            // Update isMoving based on directionIF     
             isMoving = direction.sqrMagnitude > 0;
         }
         else

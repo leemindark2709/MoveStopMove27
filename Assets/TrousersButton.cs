@@ -4,6 +4,19 @@ using UnityEngine;
 
 public class TrousersButton : MonoBehaviour
 {
+    public Transform TrousersSkins;
+    public bool setBuyButton()
+    {
+        //bool Check;
+        foreach (Transform item in TrousersSkins.GetComponent<TrousersSkinManager>().TrousersItemButtons )
+        {
+            if (item.Find("BackGround").GetComponent<ButtonItemTrousersSkin>().IsUnlock)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
     public void OnButtonClick()
     {
 
@@ -105,7 +118,7 @@ public class TrousersButton : MonoBehaviour
 
         }
 
-
+      
 
 
 

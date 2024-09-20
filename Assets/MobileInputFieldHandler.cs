@@ -4,9 +4,10 @@ using UnityEngine;
 public class MobileInputFieldHandler : MonoBehaviour
 {
     public TMP_InputField inputField; // Sử dụng TMP_InputField
-
+    public TextMeshProUGUI NamePlayer;
     void Start()
     {
+        NamePlayer.text = PlayerPrefs.GetString("NamePlayer", "You");
         // Đăng ký sự kiện khi người dùng bắt đầu nhập liệu
         inputField.onSelect.AddListener(ShowVirtualKeyboard);
         inputField.onEndEdit.AddListener(OnInputEnd);
@@ -24,5 +25,10 @@ public class MobileInputFieldHandler : MonoBehaviour
         Debug.Log("User entered: " + text);
         // Xử lý văn bản mà người dùng đã nhập, chẳng hạn như cập nhật tên người chơi
         GameManager.Instance.namePlayer.gameObject.GetComponent<TextMeshProUGUI>().text = text;
+        PlayerPrefs.SetString("NamePlayer", inputField.text);     
+    }
+    private void Update()
+    {
+        NamePlayer.text = PlayerPrefs.GetString("NamePlayer", "You"); NamePlayer.text = PlayerPrefs.GetString("NamePlayer", "You");
     }
 }

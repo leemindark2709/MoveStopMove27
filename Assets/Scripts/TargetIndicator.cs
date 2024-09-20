@@ -42,7 +42,7 @@ public class TargetIndicator : MonoBehaviour
                 {
                     offScreenImage.sprite = targetImage.sprite; // Sao chép sprite
                     offScreenImage.color = targetImage.color;   // Sao chép màu sắc
-                    Debug.Log("Đã sao chép sprite và màu sắc thành công.");
+                    //Debug.Log("Đã sao chép sprite và màu sắc thành công.");
                 }
             }
 

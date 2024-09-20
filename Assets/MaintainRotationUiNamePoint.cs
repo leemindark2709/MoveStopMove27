@@ -1,8 +1,12 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 public class MaintainRotationUiNamePoint : MonoBehaviour
 {
+    public TextMeshProUGUI namePlayer;
     private Quaternion initialRotation;
+    public TextMeshProUGUI point;
 
     void Start()
     {

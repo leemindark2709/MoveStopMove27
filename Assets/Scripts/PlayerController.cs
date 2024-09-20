@@ -19,13 +19,26 @@ public class PlayerController : MonoBehaviour
         {
 
             //anim.SetFloat("attack", 0);
-            if (anim.GetFloat("attack") == 1)
+            if (anim.GetFloat("attack") == 1|| anim.GetFloat("AttackUltimate")==1)
             {
-                anim.SetFloat("attack", 0);
+                if (anim.GetFloat("attack") == 1)
+                {
+                    anim.SetFloat("attack", 0);
+                }
+                if (anim.GetFloat("AttackUltimate") == 1)
+                {
+                    anim.SetFloat("AttackUltimate", 0);
+                }
+                //anim.SetFloat("AttackUltimate", 0);  
+                //anim.SetFloat("attack", 0);
             }
             if (anim.GetFloat("attackMoving") == 1)
             {
                 anim.SetFloat("attackMoving", 0.1f);
+            }
+            if (anim.GetFloat("AttackUltilMoving") == 1)
+            {
+                anim.SetFloat("AttackUltilMoving", 0.1f);
             }
 
             anim.SetFloat("moving", 1);

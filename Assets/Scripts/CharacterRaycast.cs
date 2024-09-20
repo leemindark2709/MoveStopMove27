@@ -20,7 +20,7 @@ public class CharacterRaycast : MonoBehaviour
             }
             else
             {
-                Debug.Log("Raycast hit an object without tag 'map': " + hit.collider.name);
+                //Debug.Log("Raycast hit an object without tag 'map': " + hit.collider.name);
             }
         }
         else

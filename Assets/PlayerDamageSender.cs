@@ -12,6 +12,7 @@ public class PlayerDameSender : MonoBehaviour
     public string NameWeapon;
     public string TypeWeapon;
 
+
     private static bool isWeaponCollided = false; // Cờ tĩnh để theo dõi va chạm của bất kỳ vũ khí nào
 
     private void OnTriggerEnter(Collider other)
@@ -53,8 +54,9 @@ public class PlayerDameSender : MonoBehaviour
 
             check = true;
 
-            if (targetTree != null)
+            if (targetTree != null&& GameManager.Instance.Armature.GetComponent<PlayerAttack>().UiPoint%5==0)
             {
+                GameManager.Instance.Armature.GetComponent<PlayerAttack>().LevelUpPlayer++;
                 targetTree.localScale += new Vector3(0.01f, 0.01f, 0.01f);
 
                 RectTransform circleTransform = targetTree.parent.Find("Canvas").Find("Circle").GetComponent<RectTransform>();
@@ -68,7 +70,7 @@ public class PlayerDameSender : MonoBehaviour
                 {
                     playerAttack.detectionRadius += playerAttack.detectionRadius * 0.1f;
                 }
-
+                transform.localScale = GameManager.Instance.Armature.GetComponent<PlayerAttack>().localScale;
                 transform.localScale += new Vector3(0.01f, 0.01f, 0.01f);
 
                 CameraFollow cameraFollow = GameObject.Find("MainCamera").GetComponent<CameraFollow>();
@@ -81,6 +83,11 @@ public class PlayerDameSender : MonoBehaviour
         }
         else if (!IsChildOf(other.transform, targetTree) && other.CompareTag("Enemy") && other.gameObject.layer == LayerMask.NameToLayer("Zombie"))
         {
+            ParticleSystem ZombieParticleSystemCopy =
+           Instantiate(GameManager.Instance.Armature.GetComponent<PlayerAttack>().deathParticles, other.transform.GetComponent<ZombieDameSender>().PointSpawnPatical.transform.position, other.transform.GetComponent<ZombieDameSender>().PointSpawnPatical.transform.rotation);
+            ZombieParticleSystemCopy.GetComponent<ParticleSystemRenderer>().material = other.transform.Find("lp_guy_mesh").GetComponent<SkinnedMeshRenderer>().materials[0];
+
+            ZombieParticleSystemCopy.Play();
             scoreincrease();
             check = true;
             int layer = LayerMask.NameToLayer("ZombieDie");

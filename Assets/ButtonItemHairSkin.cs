@@ -9,6 +9,7 @@ public class ButtonItemHairSkin : MonoBehaviour
     public bool IsUnlock;
     public Transform Lock;
     public int Price;
+    public bool isTestSkin;
     public void OnButtonClick()
     {
         HairSkinManager.instance.ButtonHairItemClick=transform.parent;
@@ -52,6 +53,13 @@ public class ButtonItemHairSkin : MonoBehaviour
         }
         else
         {
+            CharSkinManager.instance.ADSHairItem.gameObject.SetActive(false);
+            CharSkinManager.instance.GoldHairItem.gameObject.SetActive(false);
+        }
+        if (isTestSkin)
+        {
+            CharSkinManager.instance.SelectHairItem.gameObject.SetActive(true);
+            CharSkinManager.instance.UnequipHairItem.gameObject.SetActive(false);
             CharSkinManager.instance.ADSHairItem.gameObject.SetActive(false);
             CharSkinManager.instance.GoldHairItem.gameObject.SetActive(false);
         }

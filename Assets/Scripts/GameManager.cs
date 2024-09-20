@@ -7,7 +7,9 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
-{   
+{
+    public List<Transform> ListMaps = new List<Transform>();
+    public TextMeshProUGUI NamePlayer; 
     public string MainAbility ;
     public Transform newWeapon;
     public string NameOfAbilityButtom;
@@ -51,6 +53,7 @@ public class GameManager : MonoBehaviour
     private float lastSpawnTime; // Time of the last spawn
     public int NumEnemySpawn = 10;
     public int counyEnemy = 11;
+    public int NumofEnemy = 10;
 
 
     public int NumZombieSpawn =100;
@@ -109,14 +112,15 @@ public class GameManager : MonoBehaviour
     public List<Transform> Zombies = new List<Transform>();
     private void Awake()
     {
-        //PlayerPrefs.SetInt("NumAbilityBottomRange", 0);
-        //PlayerPrefs.SetInt("NumAbilityBottomSpeed", 0);
-        //PlayerPrefs.SetInt("GoldAbilityBottomRange", 250);
-        //PlayerPrefs.SetInt("GoldAbilityBottomSpeed", 250);
-        //PlayerPrefs.SetInt("GoldAbilityBottomShield", 1000);
-        //PlayerPrefs.SetInt("NumAbilityBottomShield", 0);
-        //PlayerPrefs.SetInt("GoldAbilityBottomMaxWeapon", 1000);
-        //PlayerPrefs.SetInt("NumAbilityBottomMaxWeapon", 0);
+        PlayerPrefs.SetInt("PolkaDots", 0);
+        PlayerPrefs.SetInt("NumAbilityBottomRange", 0);
+        PlayerPrefs.SetInt("NumAbilityBottomSpeed", 0);
+        PlayerPrefs.SetInt("GoldAbilityBottomRange", 250);
+        PlayerPrefs.SetInt("GoldAbilityBottomSpeed", 250);
+        PlayerPrefs.SetInt("GoldAbilityBottomShield", 1000);
+        PlayerPrefs.SetInt("NumAbilityBottomShield", 0);
+        PlayerPrefs.SetInt("GoldAbilityBottomMaxWeapon", 1000);
+        PlayerPrefs.SetInt("NumAbilityBottomMaxWeapon", 0);
 
         checkShopWeapon = false;
         UiNamePoint = GameObject.Find("UiNamePoint").transform;
@@ -226,6 +230,7 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        SetMap();
         //Debug.Log(PlayerPrefs.GetString("IsHair", "NoneHair"));
         GoldHome = Home.GetComponent<Home>().Gold;
         HairSkin.GetComponent<HairSkinManager>().IsHair = FindChildWithName(PLayer, PlayerPrefs.GetString("IsHair", "NoneHair"));
@@ -265,9 +270,6 @@ public class GameManager : MonoBehaviour
         TurnOfComponentPlayer();
         SetUpCamera();
         isStart = false;
-        NumEnemySpawn = 20;
-        numEnemyAlive = 0;
-        counyEnemy = 21;
         lastSpawnTime = -spawnCooldown; // Allow spawning immediately at the start
 
         if (counyEnemy == 0)
@@ -575,7 +577,8 @@ public class GameManager : MonoBehaviour
     }
     void Update()
     {
-       
+        Armature.GetComponent<PlayerAttack>().UIName.GetComponent<MaintainRotationUiNamePoint>().namePlayer.text = PlayerPrefs.GetString("NamePlayer");
+        //Debug.Log(PlayerPrefs.GetString("NamePlayer"));
         GoldHome.transform.GetComponent<TextMeshProUGUI>().text = Gold.ToString();
         // Check if the player is dead
       
@@ -673,7 +676,7 @@ public class GameManager : MonoBehaviour
         {
             renderer.material = randomMaterial;
             spawnedEnemy.transform.Find("Armature").Find("Canvas").Find("UIPoint").GetComponent<Image>().color = randomMaterial.color;
-            //spawnedEnemy.GetComponent<EnemyMoving>().Armature.GetComponent<ArmartureEnemy>().NameEnemy.GetComponent<TextMeshProUGUI>().color= randomMaterial.color;
+            spawnedEnemy.GetComponent<EnemyMoving>().Armature.GetComponent<ArmartureEnemy>().NameEnemy.GetComponent<TextMeshProUGUI>().color = randomMaterial.color;
         }
         /////////////////////////////////Weapon///////////////////////////////////////
         RandomWeapon(spawnedEnemy);
@@ -1059,6 +1062,25 @@ public class GameManager : MonoBehaviour
 
         // Bạn có thể thực hiện các thao tác khác sau khi di chuyển hoàn tất tại đây
         // Ví dụ: Tắt một số UI hoặc tiếp tục logic khác
+    }
+    public void SetMap()
+    {
+        foreach (Transform item in ListMaps)
+        {
+            if (item.name==PlayerPrefs.GetString("IsMap", "Map"))
+            {
+                item.gameObject.SetActive(true);
+                GameManager.Instance.NumEnemySpawn = item.GetComponent<Map>().NumOfEnemy;
+                GameManager.Instance.counyEnemy = item.GetComponent<Map>().NumOfEnemy;
+                GameManager.Instance.numEnemyAlive = 0;
+                GameManager.Instance.NumofEnemy = item.GetComponent<Map>().NumOfEnemy;
+                GameManager.Instance.rankObject.transform.Find("Num").gameObject.GetComponent<TextMeshProUGUI>().text = (GameManager.Instance.NumEnemySpawn).ToString();
+            }
+            else
+            {
+                item.gameObject.SetActive(false);
+            }
+        }
     }
 
 }
