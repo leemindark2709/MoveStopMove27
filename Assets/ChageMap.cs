@@ -8,7 +8,7 @@ public class ChageMap : MonoBehaviour
 
     public void OnButtonClick()
     {
-        PlayerPrefs.SetString("IsMap", "Map");
+    
         for (int i = 0; i < GameManager.Instance.ListMaps.Count; i++)
         {
 
@@ -16,7 +16,7 @@ public class ChageMap : MonoBehaviour
             {
                 PlayerPrefs.SetString("IsMap", GameManager.Instance.ListMaps[i + 1].name);
                 GameManager.Instance.NumEnemySpawn = GameManager.Instance.ListMaps[i + 1].GetComponent<Map>().NumOfEnemy;
-                GameManager.Instance.counyEnemy = GameManager.Instance.ListMaps[i + 1].GetComponent<Map>().NumOfEnemy;
+                GameManager.Instance.counyEnemy = GameManager.Instance.ListMaps[i + 1].GetComponent<Map>().NumOfEnemy+1;
                 GameManager.Instance.numEnemyAlive = 0;
                 GameManager.Instance.NumofEnemy = GameManager.Instance.ListMaps[i + 1].GetComponent<Map>().NumOfEnemy;
                 GameManager.Instance.WinGame.gameObject.SetActive(false);

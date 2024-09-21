@@ -8,12 +8,19 @@ public class GiftBox : MonoBehaviour
     {
         if (collision.transform.tag=="Playerr"||collision.transform.tag=="Enemy")
         {
-            collision.transform.GetComponent<UltimateChek>().HaveUltimate = true;
-            Destroy(transform.gameObject);
-            if (collision.transform.tag=="Playerr")
+            if (collision.transform.GetComponent<UltimateChek>().HaveUltimate == false)
             {
-                GameManager.Instance.PLayer.GetComponent<PlayerMovement>().Circle.localScale *= 1.5f;
-                GameManager.Instance.Armature.GetComponent<PlayerAttack>().detectionRadius *= 1.5f;
+                collision.transform.GetComponent<UltimateChek>().HaveUltimate = true;
+                Destroy(transform.gameObject);
+                if (collision.transform.tag == "Playerr")
+                {
+                    GameManager.Instance.PLayer.GetComponent<PlayerMovement>().Circle.localScale *= 1.5f;
+                    GameManager.Instance.Armature.GetComponent<PlayerAttack>().detectionRadius *= 1.5f;
+                }
+            }
+            else
+            {
+                Destroy(transform.gameObject);
             }
         }
     }

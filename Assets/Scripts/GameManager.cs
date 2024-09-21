@@ -1071,10 +1071,10 @@ public class GameManager : MonoBehaviour
             {
                 item.gameObject.SetActive(true);
                 GameManager.Instance.NumEnemySpawn = item.GetComponent<Map>().NumOfEnemy;
-                GameManager.Instance.counyEnemy = item.GetComponent<Map>().NumOfEnemy;
+                GameManager.Instance.counyEnemy = item.GetComponent<Map>().NumOfEnemy+1;
                 GameManager.Instance.numEnemyAlive = 0;
                 GameManager.Instance.NumofEnemy = item.GetComponent<Map>().NumOfEnemy;
-                GameManager.Instance.rankObject.transform.Find("Num").gameObject.GetComponent<TextMeshProUGUI>().text = (GameManager.Instance.NumEnemySpawn).ToString();
+                GameManager.Instance.rankObject.transform.Find("Num").gameObject.GetComponent<TextMeshProUGUI>().text = (GameManager.Instance.counyEnemy).ToString();
             }
             else
             {

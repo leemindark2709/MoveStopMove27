@@ -260,7 +260,8 @@ public class PlayerAttack : MonoBehaviour
         {
             //CheckEnemy().transform.parent.Find("Canvas").Find("IsCheckEnemy").GetComponent<Image>().enabled = true;
             numOfAttacks = 0;
-            Attack(enemy); // Tấn công kẻ địch
+            Vector3 direction = (enemy.transform.position - weapon.position).normalized;
+            Attack(direction); // Tấn công kẻ địch
           
             
             Debug.Log("Kẻ địch gần, tấn công");
@@ -311,7 +312,7 @@ public class PlayerAttack : MonoBehaviour
 
     }
 
-    public void Attack(GameObject enemy)
+    public void Attack(Vector3 direction)
     {
         
         if (weapon == null)
@@ -320,21 +321,22 @@ public class PlayerAttack : MonoBehaviour
             Debug.LogWarning("Vũ khí chưa được gán.");
             return;
         }
-        if (enemy == null)
-        {
-            numOfAttacks = 1;
-            return;
-        }
+        //if (enemy == null)
+        //{
+        //    numOfAttacks = 1;
+        //    return;
+        //}
+       
         if (transform.GetComponent<UltimateChek>().HaveUltimate)
         {
             anim.SetFloat("AttackUltimate", 1);
-            StartCoroutine(DelayedAttack(0.4f, enemy)); // T    ạo độ trễ khi tấn công
+            StartCoroutine(DelayedAttack(0.4f, direction)); // T    ạo độ trễ khi tấn công
         }
         else
         {
 
             anim.SetFloat("attack", 1); // Play attack animation
-            StartCoroutine(DelayedAttack(0.35f, enemy)); // T    ạo độ trễ khi tấn công
+            StartCoroutine(DelayedAttack(0.35f, direction)); // T    ạo độ trễ khi tấn công
 
         }
 
@@ -353,18 +355,18 @@ public class PlayerAttack : MonoBehaviour
         CanAttack = true;
     }
 
-    private IEnumerator DelayedAttack(float delay, GameObject enemy)
+    private IEnumerator DelayedAttack(float delay,Vector3 direction)
     {
-        if (enemy == null)
-        {
-            Debug.LogWarning("Kẻ địch không còn tồn tại");
-            numOfAttacks = 1;
-            yield break;
-        }
+        //if (enemy == null)
+        //{
+        //    Debug.LogWarning("Kẻ địch không còn tồn tại");
+        //    numOfAttacks = 1;
+        //    yield break;
+        //}
 
         enemyTarget = enemy.transform; // Lưu mục tiêu của kẻ địch
 
-        Vector3 direction = (enemy.transform.position - weapon.position).normalized; // Hướng tấn công
+        //Vector3 direction = (enemy.transform.position - weapon.position).normalized; // Hướng tấn công
         direction.y = 0;
         Quaternion lookRotation = Quaternion.LookRotation(direction); // Xoay để hướng về kẻ địch
         transform.rotation = lookRotation;
@@ -401,42 +403,42 @@ public class PlayerAttack : MonoBehaviour
         }
 
 
-        if (GameManager.Instance.Armature.GetComponent<PlayerAttack>().enemy != null  )
-        {
-            if (GameManager.Instance.Armature.GetComponent<PlayerAttack>().enemy.tag != "DieEnemy")
-            {
-                PerformAttack(GameManager.Instance.Armature.GetComponent<PlayerAttack>().enemy.transform); // Thực hiện tấn công
-            }
+        //if (GameManager.Instance.Armature.GetComponent<PlayerAttack>().enemy != null  )
+        //{
+            //if (GameManager.Instance.Armature.GetComponent<PlayerAttack>().enemy.tag != "DieEnemy")
+            //{
+                PerformAttack(direction); // Thực hiện tấn công
+            //}
            
-        }
-        else
-        {
+        //}
+        //else
+        //{
 
-            if (transform.GetComponent<UltimateChek>().HaveUltimate)
-            {
+        //    if (transform.GetComponent<UltimateChek>().HaveUltimate)
+        //    {
              
-                anim.SetFloat("AttackUltimate", 0);
+        //        anim.SetFloat("AttackUltimate", 0);
               
 
-                numOfAttacks = 1; // Đặt lại số lần tấn công
-            }
-            else
-            {
-                anim.SetFloat("attack", 0);
-                numOfAttacks = 1;
+        //        numOfAttacks = 1; // Đặt lại số lần tấn công
+        //    }
+        //    else
+        //    {
+        //        anim.SetFloat("attack", 0);
+        //        numOfAttacks = 1;
             
-            }
+        //    }
 
 
         
-        }
+        //}
     }
 
 
 
-    private void PerformAttack(Transform enemyTarget)
+    private void PerformAttack(Vector3 direction)
     {
-        if (enemyTarget == null) return;
+        //if (enemyTarget == null) return;
 
         // Lấy Rigidbody của Weapon
         Rigidbody weaponRb = weapon.GetComponent<Rigidbody>();
@@ -448,7 +450,7 @@ public class PlayerAttack : MonoBehaviour
             if (weaponType == "Hammer")
             {
                 localRotation = weapon.localRotation; // Lưu trữ góc quay hiện tại của vũ khí
-                Vector3 direction = (enemyTarget.position - weapon.position).normalized;
+                //Vector3 direction = (enemyTarget.position - weapon.position).normalized;
                 direction.y = 0.016f;
 
                 if (weaponRb != null)
@@ -493,7 +495,7 @@ public class PlayerAttack : MonoBehaviour
                         weaponRb.velocity = Vector3.zero; // Đặt vận tốc thành 0
                         weaponRb.angularVelocity = Vector3.zero; // Đặt vận tốc góc thành 0
 
-                        forceMagnitude = 0.85f; // Lực tác động lên vũ khí
+                        forceMagnitude = 1.25f; // Lực tác động lên vũ khí
 
                         weaponRb.AddForce(direction * forceMagnitude, ForceMode.Impulse); // Tác động lực lên vũ khí
                      
@@ -558,7 +560,7 @@ public class PlayerAttack : MonoBehaviour
             else if (weaponType == "Knife")
             {
                 // Cấu hình và tấn công với Knife
-                Vector3 direction = (enemyTarget.position - weapon.position).normalized;
+                //Vector3 direction = (enemyTarget.position - weapon.position).normalized;
                 direction.y = 0.016f;
 
                 weapon.parent = null;

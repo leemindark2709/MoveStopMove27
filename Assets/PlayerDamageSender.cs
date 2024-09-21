@@ -12,18 +12,20 @@ public class PlayerDameSender : MonoBehaviour
     public string NameWeapon;
     public string TypeWeapon;
 
-
     private static bool isWeaponCollided = false; // Cờ tĩnh để theo dõi va chạm của bất kỳ vũ khí nào
+    private Vector3 originalScale; // Lưu scale ban đầu
+
+    private void Start()
+    {
+        if (targetTree != null)
+        {
+            // Lưu lại giá trị scale ban đầu của targetTree
+            originalScale = targetTree.localScale;
+        }
+    }
 
     private void OnTriggerEnter(Collider other)
     {
-        //if (isWeaponCollided)
-        //{
-        //    // Nếu vũ khí đã va chạm, không xử lý va chạm nữa
-        //    return;
-        //}
-
-        // Kiểm tra nếu game object không thuộc cây targetTree thì mới xử lý
         if (!IsChildOf(other.transform, targetTree) && other.CompareTag("Enemy") && other.gameObject.layer == LayerMask.NameToLayer("Enemy"))
         {
             isWeaponCollided = true; // Đánh dấu là đã va chạm
@@ -33,13 +35,16 @@ public class PlayerDameSender : MonoBehaviour
             var otherEnemy = other.transform.parent.GetComponent<EnemyMoving>();
             if (otherEnemy != null)
             {
-                Rigidbody rb = other.transform.GetComponent<Rigidbody>();
-                if (rb != null)
+                if (!GameManager.Instance.Armature.GetComponent<UltimateChek>().HaveUltimate)
                 {
-                    rb.isKinematic = true;
-                }
+                    Rigidbody rb = other.transform.GetComponent<Rigidbody>();
+                    if (rb != null)
+                    {
+                        rb.isKinematic = true;
+                    }
 
-                other.transform.GetComponent<BoxCollider>().enabled = false;
+                    other.transform.GetComponent<BoxCollider>().enabled = false;
+                }
 
                 other.transform.parent.tag = "DieEnemy";
                 otherEnemy.transform.Find("Armature").tag = "DieEnemy";
@@ -54,10 +59,12 @@ public class PlayerDameSender : MonoBehaviour
 
             check = true;
 
-            if (targetTree != null&& GameManager.Instance.Armature.GetComponent<PlayerAttack>().UiPoint%5==0)
+            if (targetTree != null && GameManager.Instance.Armature.GetComponent<PlayerAttack>().UiPoint % 5 == 0)
             {
                 GameManager.Instance.Armature.GetComponent<PlayerAttack>().LevelUpPlayer++;
-                targetTree.localScale += new Vector3(0.01f, 0.01f, 0.01f);
+
+                // Tăng 10% của scale ban đầu
+                targetTree.localScale = originalScale + originalScale * 0.1f;
 
                 RectTransform circleTransform = targetTree.parent.Find("Canvas").Find("Circle").GetComponent<RectTransform>();
                 if (circleTransform != null)
@@ -70,8 +77,9 @@ public class PlayerDameSender : MonoBehaviour
                 {
                     playerAttack.detectionRadius += playerAttack.detectionRadius * 0.1f;
                 }
+
                 transform.localScale = GameManager.Instance.Armature.GetComponent<PlayerAttack>().localScale;
-                transform.localScale += new Vector3(0.01f, 0.01f, 0.01f);
+                transform.localScale *= 1.1f;
 
                 CameraFollow cameraFollow = GameObject.Find("MainCamera").GetComponent<CameraFollow>();
                 if (cameraFollow != null)

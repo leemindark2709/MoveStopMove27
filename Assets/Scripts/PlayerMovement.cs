@@ -65,6 +65,7 @@ public class PlayerMovement : MonoBehaviour
         else if (Input.GetMouseButtonDown(0))
         {
             // Save the start position of the mouse click
+            GameManager.Instance.Armature.GetComponent<PlayerAttack>().CanAttack = true;
             startPoint = Input.mousePosition;
             isInteracting = true;
         }
